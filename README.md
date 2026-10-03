@@ -275,8 +275,6 @@ API status
 Route
 Airline information
 
-The frontend communicates with the FastAPI backend using JavaScript fetch() requests.
-<img width="1297" height="676" alt="image" src="https://github.com/user-attachments/assets/c1eea587-d5e2-4014-b5f4-328f4614cb8e" />
 
 🏗️ System Architecture
                     ┌─────────────────────┐
