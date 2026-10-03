@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>FlightAI — Predictive Aviation Intelligence</title>
+
+    <meta
+        name="description"
+        content="AI-powered flight delay prediction using LightGBM"
+    >
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="app-shell">
+
+    <!-- ================= NAVBAR ================= -->
+
+    <header class="navbar">
+
+        <div class="brand">
+
+            <div class="brand-icon">
+                ✈
+            </div>
+
+            <div class="brand-text">
+                <div class="brand-name">
+                    Flight<span>AI</span>
+                </div>
+
+                <div class="brand-subtitle">
+                    PREDICTIVE AVIATION INTELLIGENCE
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="nav-status">
+
+            <div class="api-status" id="apiStatus">
+                <span class="status-dot"></span>
+                <span id="apiStatusText">Checking API...</span>
+            </div>
+
+            <div class="model-badge">
+                LightGBM
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- ================= MAIN ================= -->
+
+    <main class="main-container">
+
+
+        <!-- ================= HERO ================= -->
+
+        <section class="hero">
+
+            <div class="hero-content">
+
+                <div class="eyebrow">
+                    <span></span>
+                    REAL-TIME FLIGHT ANALYTICS
+                </div>
+
+                <h1>
+                    Predict flight delays
+                    <br>
+                    <span>before they happen.</span>
+                </h1>
+
+                <p>
+                    Powered by a trained LightGBM machine learning model,
+                    FlightAI analyzes flight schedules, routes, timing and
+                    distance to estimate delay probability.
+                </p>
+
+            </div>
+
+
+            <!-- Radar animation -->
+
+            <div class="radar">
+
+                <div class="radar-circle circle-1"></div>
+                <div class="radar-circle circle-2"></div>
+                <div class="radar-circle circle-3"></div>
+
+                <div class="radar-sweep"></div>
+
+                <div class="radar-plane">
+                    ✈
+                </div>
+
+                <div class="radar-point point-1"></div>
+                <div class="radar-point point-2"></div>
+                <div class="radar-point point-3"></div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= DASHBOARD ================= -->
+
+        <section class="dashboard">
+
+
+            <!-- ================= INPUT CARD ================= -->
+
+            <div class="card input-card">
+
+                <div class="card-header">
+
+                    <div>
+                        <div class="section-label">
+                            FLIGHT ANALYSIS
+                        </div>
+
+                        <h2>
+                            Enter flight details
+                        </h2>
+                    </div>
+
+                    <div class="ai-icon">
+                        ✦
+                    </div>
+
+                </div>
+
+
+                <form id="predictionForm">
+
+
+                    <!-- DATE -->
+
+                    <div class="form-group full">
+
+                        <label for="flightDate">
+                            Flight Date
+                        </label>
+
+                        <input
+                            type="date"
+                            id="flightDate"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- AIRLINE -->
+
+                    <div class="form-grid">
+
+                        <div class="form-group">
+
+                            <label for="airline">
+                                Reporting Airline
+                            </label>
+
+                            <div class="input-wrapper">
+                                <span class="input-icon">✈</span>
+
+                                <input
+                                    type="text"
+                                    id="airline"
+                                    placeholder="e.g. DL"
+                                    maxlength="3"
+                                    required
+                                >
+                            </div>
+
+                        </div>
+
+
+                        <!-- ORIGIN -->
+
+                        <div class="form-group">
+
+                            <label for="origin">
+                                Origin
+                            </label>
+
+                            <div class="input-wrapper">
+
+                                <span class="input-icon">
+                                    A
+                                </span>
+
+                                <input
+                                    type="text"
+                                    id="origin"
+                                    placeholder="e.g. DTW"
+                                    maxlength="3"
+                                    required
+                                >
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- DESTINATION -->
+
+                        <div class="form-group">
+
+                            <label for="destination">
+                                Destination
+                            </label>
+
+                            <div class="input-wrapper">
+
+                                <span class="input-icon">
+                                    B
+                                </span>
+
+                                <input
+                                    type="text"
+                                    id="destination"
+                                    placeholder="e.g. MKE"
+                                    maxlength="3"
+                                    required
+                                >
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- DEPARTURE -->
+
+                        <div class="form-group">
+
+                            <label for="departure">
+                                Scheduled Departure
+                            </label>
+
+                            <div class="input-wrapper">
+
+                                <span class="input-icon">
+                                    ◷
+                                </span>
+
+                                <input
+                                    type="time"
+                                    id="departure"
+                                    required
+                                >
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- ARRIVAL -->
+
+                        <div class="form-group">
+
+                            <label for="arrival">
+                                Scheduled Arrival
+                            </label>
+
+                            <div class="input-wrapper">
+
+                                <span class="input-icon">
+                                    ◷
+                                </span>
+
+                                <input
+                                    type="time"
+                                    id="arrival"
+                                    required
+                                >
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- DURATION -->
+
+                        <div class="form-group">
+
+                            <label for="duration">
+                                Scheduled Duration
+                            </label>
+
+                            <div class="input-wrapper">
+
+                                <span class="input-icon">
+                                    ⏱
+                                </span>
+
+                                <input
+                                    type="number"
+                                    id="duration"
+                                    placeholder="e.g. 72"
+                                    min="1"
+                                    required
+                                >
+
+                                <span class="input-suffix">
+                                    min
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- DISTANCE -->
+
+                        <div class="form-group full">
+
+                            <label for="distance">
+                                Flight Distance
+                            </label>
+
+                            <div class="input-wrapper">
+
+                                <span class="input-icon">
+                                    ↗
+                                </span>
+
+                                <input
+                                    type="number"
+                                    id="distance"
+                                    placeholder="e.g. 237"
+                                    min="1"
+                                    required
+                                >
+
+                                <span class="input-suffix">
+                                    miles
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- BUTTONS -->
+
+                    <div class="form-actions">
+
+                        <button
+                            type="button"
+                            class="sample-button"
+                            id="sampleButton"
+                        >
+                            Load sample
+                        </button>
+
+                        <button
+                            type="button"
+                            class="reset-button"
+                            id="resetButton"
+                        >
+                            Reset
+                        </button>
+
+                        <button
+                            type="submit"
+                            class="predict-button"
+                            id="predictButton"
+                        >
+
+                            <span id="buttonText">
+                                Predict Delay
+                            </span>
+
+                            <span class="button-arrow">
+                                →
+                            </span>
+
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+
+            <!-- ================= RESULT CARD ================= -->
+
+            <div class="card result-card">
+
+                <div class="card-header">
+
+                    <div>
+
+                        <div class="section-label">
+                            AI PREDICTION
+                        </div>
+
+                        <h2>
+                            Prediction result
+                        </h2>
+
+                    </div>
+
+                    <div
+                        class="result-status ready"
+                        id="resultStatus"
+                    >
+                        READY
+                    </div>
+
+                </div>
+
+
+                <!-- EMPTY STATE -->
+
+                <div
+                    class="empty-state"
+                    id="emptyState"
+                >
+
+                    <div class="empty-orbit">
+
+                        <div class="empty-plane">
+                            ✈
+                        </div>
+
+                    </div>
+
+                    <h3>
+                        Awaiting flight data
+                    </h3>
+
+                    <p>
+                        Enter the flight details and run the
+                        AI prediction.
+                    </p>
+
+                </div>
+
+
+                <!-- RESULT -->
+
+                <div
+                    class="prediction-content"
+                    id="predictionContent"
+                >
+
+                    <div
+                        class="prediction-banner"
+                        id="predictionBanner"
+                    >
+
+                        <div
+                            class="prediction-icon"
+                            id="predictionIcon"
+                        >
+                            !
+                        </div>
+
+                        <div>
+
+                            <h3 id="predictionTitle">
+                                Flight Delayed
+                            </h3>
+
+                            <p id="predictionDescription">
+                                The model predicts a higher probability
+                                of delay.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- PROBABILITY -->
+
+                    <div class="probability-section">
+
+                        <div class="probability-header">
+
+                            <span>
+                                Delay probability
+                            </span>
+
+                            <strong id="probabilityValue">
+                                0.0%
+                            </strong>
+
+                        </div>
+
+
+                        <div class="progress-track">
+
+                            <div
+                                class="progress-bar"
+                                id="progressBar"
+                            ></div>
+
+                        </div>
+
+
+                        <div class="probability-labels">
+
+                            <span>
+                                Low risk
+                            </span>
+
+                            <span id="thresholdLabel">
+                                Threshold 38%
+                            </span>
+
+                            <span>
+                                High risk
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- METRICS -->
+
+                    <div class="metrics-grid">
+
+                        <div class="metric">
+
+                            <span>
+                                PREDICTION
+                            </span>
+
+                            <strong id="predictionMetric">
+                                —
+                            </strong>
+
+                        </div>
+
+
+                        <div class="metric">
+
+                            <span>
+                                THRESHOLD
+                            </span>
+
+                            <strong id="thresholdMetric">
+                                0.38
+                            </strong>
+
+                        </div>
+
+
+                        <div class="metric">
+
+                            <span>
+                                MODEL
+                            </span>
+
+                            <strong>
+                                LightGBM
+                            </strong>
+
+                        </div>
+
+
+                        <div class="metric">
+
+                            <span>
+                                API
+                            </span>
+
+                            <strong class="online-text">
+                                ONLINE
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ROUTE -->
+
+                    <div class="route-summary">
+
+                        <div>
+
+                            <span>
+                                ROUTE
+                            </span>
+
+                            <strong id="routeValue">
+                                DTW → MKE
+                            </strong>
+
+                        </div>
+
+                        <div>
+
+                            <span>
+                                AIRLINE
+                            </span>
+
+                            <strong id="airlineValue">
+                                DL
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= FOOTER ================= -->
+
+        <footer>
+
+            <span>
+                FlightAI
+            </span>
+
+            <span class="footer-divider">
+                •
+            </span>
+
+            <span>
+                LightGBM Predictive Model
+            </span>
+
+            <span class="footer-divider">
+                •
+            </span>
+
+            <span>
+                Local API
+            </span>
+
+        </footer>
+
+    </main>
+
+</div>
+
+
+<!-- Toast -->
+
+<div
+    class="toast"
+    id="toast"
+>
+    <span id="toastMessage"></span>
+</div>
+
+
+<script src="script.js"></script>
+
+</body>
+</html>

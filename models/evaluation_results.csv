@@ -1,0 +1,11 @@
+Metric,Value
+ROC-AUC,0.7621346724093411
+PR-AUC,0.559842503039819
+Baseline Threshold,0.5
+Optimized Threshold,0.38
+Baseline Precision,0.4658969915864632
+Baseline Recall,0.6834915773353752
+Baseline F1,0.5540975058659946
+Optimized Precision,0.3974404097740701
+Optimized Recall,0.8127565084226647
+Optimized F1,0.5338342461413117
